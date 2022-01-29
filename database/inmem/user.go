@@ -23,3 +23,11 @@ func (r *userRepository) Register(uid, username, hashedPassword string) (databas
 	r.users[userKey(uid)] = user
 	return user, nil
 }
+
+func (r *userRepository) FindOne(uid string) *database.User {
+	if user, ok := r.users[userKey(uid)]; ok {
+		return &user
+	}
+
+	return nil
+}

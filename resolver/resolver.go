@@ -15,7 +15,3 @@ func NewResolver(services *Services) *Resolver {
 		userService: services.UserService,
 	}
 }
-
-func (r *Resolver) HelloWorld() *helloWorldResolver {
-	return newHelloWorldResolver()
-}

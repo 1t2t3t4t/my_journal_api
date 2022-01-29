@@ -12,6 +12,7 @@ type User struct {
 }
 
 type UserService interface {
+	GetUser(uid string) (*User, error)
 	Register(username, password string) (User, error)
 }
 
@@ -25,6 +26,11 @@ const userPasswordHashCost = 12
 
 type userService struct {
 	userRepository database.UserRepository
+}
+
+func (u *userService) GetUser(uid string) (*User, error) {
+	user := u.userRepository.FindOne(uid)
+	return autoCreateMap[*User](user)
 }
 
 func (u *userService) Register(username, password string) (User, error) {
