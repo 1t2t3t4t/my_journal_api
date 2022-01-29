@@ -31,8 +31,8 @@ func createResult(user service.User) (UserSessionResolver, error) {
 		return UserSessionResolver{}, err
 	}
 	return UserSessionResolver{
-		userResolver,
-		Session{Token: authToken},
+		User:    userResolver,
+		Session: Session{Token: authToken},
 	}, nil
 }
 
@@ -41,6 +41,6 @@ type Session struct {
 }
 
 type UserSessionResolver struct {
-	UserResolver
+	User    UserResolver
 	Session Session
 }
