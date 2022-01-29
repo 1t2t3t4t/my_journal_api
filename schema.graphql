@@ -2,6 +2,15 @@ type Query {
     helloWorld: HelloWorld!
 }
 
+type Mutation {
+    register(username: String!, password: String!): User!
+}
+
 type HelloWorld {
     message: String!
+}
+
+type User {
+    uid: String!
+    username: String!
 }

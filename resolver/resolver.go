@@ -1,9 +1,19 @@
 package resolver
 
-type Resolver struct{}
+import "github.com/1t2t3t4t/my_journal_api/service"
 
-func NewResolver() *Resolver {
-	return &Resolver{}
+type Resolver struct {
+	userService service.UserService
+}
+
+type Services struct {
+	UserService service.UserService
+}
+
+func NewResolver(services *Services) *Resolver {
+	return &Resolver{
+		userService: services.UserService,
+	}
 }
 
 func (r *Resolver) HelloWorld() *helloWorldResolver {
