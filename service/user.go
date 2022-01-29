@@ -1,6 +1,8 @@
 package service
 
 import (
+	"log"
+
 	"github.com/1t2t3t4t/my_journal_api/database"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -13,6 +15,8 @@ type User struct {
 
 type UserService interface {
 	GetUser(uid string) (*User, error)
+
+	Login(username, password string) (User, error)
 	Register(username, password string) (User, error)
 }
 
@@ -31,6 +35,19 @@ type userService struct {
 func (u *userService) GetUser(uid string) (*User, error) {
 	user := u.userRepository.FindOne(uid)
 	return autoCreateMap[*User](user)
+}
+
+func (u *userService) Login(username, password string) (User, error) {
+	user := u.userRepository.FindOneByUsername(username)
+	if user == nil {
+		return User{}, ErrorInvalidUser
+	}
+	err := bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), []byte(password))
+	if err != nil {
+		log.Println(err)
+		return User{}, ErrorInvalidUser
+	}
+	return autoCreateMap[User](user)
 }
 
 func (u *userService) Register(username, password string) (User, error) {

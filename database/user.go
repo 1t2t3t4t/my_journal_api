@@ -8,6 +8,7 @@ type User struct {
 
 type UserRepository interface {
 	FindOne(uid string) *User
+	FindOneByUsername(username string) *User
 
 	Register(uid, username, hashedPassword string) (User, error)
 }

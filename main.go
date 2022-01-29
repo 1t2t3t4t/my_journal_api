@@ -34,6 +34,7 @@ func main() {
 	handler := relay.Handler{Schema: schema}
 
 	app.Use(compress.New())
+	app.Use(service.AuthMiddleware())
 	app.Get("/graphql", func(c *fiber.Ctx) error {
 		playground, err := loadPlayground()
 		if err != nil {

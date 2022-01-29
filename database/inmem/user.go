@@ -31,3 +31,12 @@ func (r *userRepository) FindOne(uid string) *database.User {
 
 	return nil
 }
+
+func (r *userRepository) FindOneByUsername(username string) *database.User {
+	if _, user, found := utils.FindMapValue(r.users, func(v database.User) bool {
+		return v.Username == username
+	}); found {
+		return &user
+	}
+	return nil
+}
