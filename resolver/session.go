@@ -6,7 +6,7 @@ func (r *Resolver) Login(arg struct {
 	Username string
 	Password string
 }) (UserSessionResolver, error) {
-	user, err := r.userService.Login(arg.Username, arg.Password)
+	user, err := r.UserService.Login(arg.Username, arg.Password)
 	if err != nil {
 		return UserSessionResolver{}, err
 	}
@@ -17,7 +17,7 @@ func (r *Resolver) Register(arg struct {
 	Username string
 	Password string
 }) (UserSessionResolver, error) {
-	user, err := r.userService.Register(arg.Username, arg.Password)
+	user, err := r.UserService.Register(arg.Username, arg.Password)
 	if err != nil {
 		return UserSessionResolver{}, err
 	}

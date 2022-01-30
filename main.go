@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/1t2t3t4t/my_journal_api/database"
 	"github.com/1t2t3t4t/my_journal_api/database/inmem"
 	"github.com/1t2t3t4t/my_journal_api/resolver"
 	"github.com/1t2t3t4t/my_journal_api/service"
@@ -13,26 +14,31 @@ import (
 	"github.com/graph-gophers/graphql-go/relay"
 )
 
-func createServices() *resolver.Services {
+func createRepositories() *database.Repositories {
+	return inmem.DefaultRepositories()
+}
+
+func createServices(repositories *database.Repositories) *resolver.Services {
 	return &resolver.Services{
-		UserService: service.NewUserService(inmem.NewUserRepository()),
+		UserService: service.NewUserService(repositories.UserRepository),
 	}
 }
 
 func main() {
-	app := fiber.New()
-
 	schemaStr, err := loadSchema()
 	if err != nil {
 		panic("Unable to load schema.")
 	}
 	opts := graphql.UseFieldResolvers()
-	services := createServices()
+
+	repositories := createRepositories()
+	services := createServices(repositories)
 	res := resolver.NewResolver(services)
 
 	schema := graphql.MustParseSchema(schemaStr, res, opts)
 	handler := relay.Handler{Schema: schema}
 
+	app := fiber.New()
 	app.Use(compress.New())
 	app.Use(service.AuthMiddleware())
 	app.Get("/graphql", func(c *fiber.Ctx) error {

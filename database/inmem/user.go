@@ -17,7 +17,7 @@ var userRepositorySingleton *userRepository
 var singletonOnce sync.Once
 var userLock sync.RWMutex
 
-func NewUserRepository() database.UserRepository {
+func newUserRepositories() database.UserRepository {
 	singletonOnce.Do(func() {
 		userRepositorySingleton = &userRepository{users: make(map[userKey]database.User)}
 	})

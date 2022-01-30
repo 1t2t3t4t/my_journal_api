@@ -16,7 +16,7 @@ func (r *Resolver) User(ctx context.Context, arg struct{ Uid *string }) (*UserRe
 		return nil, ResolvingErrorNotLoggedInUser
 	}
 
-	user, err := r.userService.GetUser(targetUid)
+	user, err := r.UserService.GetUser(targetUid)
 	if err != nil {
 		return nil, err
 	}
