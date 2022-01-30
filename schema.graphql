@@ -1,5 +1,6 @@
 type Query {
-    user(uid: String!): User
+    # If there is no "uid" provided, the server will default to returns currently logged in user. (From provided token in headers)
+    user(uid: String): User
 }
 
 type Mutation {
@@ -13,6 +14,7 @@ type UserCredential {
 }
 
 type Session {
+    # Bearer token used for doing authenticated call by adding to Http Headers with key "Authorization"
     token: String!
 }
 
