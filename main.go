@@ -15,7 +15,7 @@ import (
 )
 
 func createRepositories() *database.Repositories {
-	return inmem.DefaultRepositories()
+	return inmem.NewRepositories()
 }
 
 func createServices(repositories *database.Repositories) *resolver.Services {
