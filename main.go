@@ -20,7 +20,8 @@ func createRepositories() *database.Repositories {
 
 func createServices(repositories *database.Repositories) *resolver.Services {
 	return &resolver.Services{
-		UserService: service.NewUserService(repositories.UserRepository),
+		UserService:    service.NewUserService(repositories.UserRepository),
+		JourneyService: service.NewJourneyService(repositories.JourneyRepository),
 	}
 }
 

@@ -6,6 +6,8 @@ type Query {
 type Mutation {
     login(username: String!, password: String!): UserCredential!
     register(username: String!, password: String!): UserCredential!
+
+    createJourney(title: String!, content: String!): Journey!
 }
 
 type UserCredential {
@@ -21,4 +23,10 @@ type Session {
 type User {
     uid: String!
     username: String!
+}
+
+type Journey {
+    title: String!
+    content: String!
+    author: User!
 }

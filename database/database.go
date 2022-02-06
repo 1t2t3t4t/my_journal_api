@@ -1,5 +1,6 @@
 package database
 
 type Repositories struct {
-	UserRepository UserRepository
+	UserRepository    UserRepository
+	JourneyRepository JourneyRepository
 }

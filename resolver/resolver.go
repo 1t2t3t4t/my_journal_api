@@ -7,7 +7,8 @@ type Resolver struct {
 }
 
 type Services struct {
-	UserService service.UserService
+	UserService    service.UserService
+	JourneyService service.JourneyService
 }
 
 func NewResolver(services *Services) *Resolver {

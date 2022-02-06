@@ -91,7 +91,11 @@ func findOne[T any](index string) (T, error) {
 	return decode[T](content)
 }
 
-func insert[T any](index string, data T) error {
+func insert[T any](data T) error {
+	index, err := getIndex(data)
+	if err != nil {
+		return err
+	}
 	dataDirPath, err := dataPath[T](index)
 	if err != nil {
 		return err

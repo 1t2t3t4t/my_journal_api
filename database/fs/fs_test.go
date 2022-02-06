@@ -7,7 +7,7 @@ import (
 )
 
 type MyData struct {
-	Name   string
+	Name   string `db:"index"`
 	Age    int
 	Gender *string
 }
@@ -19,10 +19,25 @@ func TestSaveData(t *testing.T) {
 		Gender: nil,
 	}
 
-	err := insert("someidx", expect)
+	err := insert(expect)
 	assert.NoError(t, err)
 
-	data, err := findOne[MyData]("someidx")
+	data, err := findOne[MyData]("Test")
 	assert.NoError(t, err)
 	assert.Equal(t, expect, data)
+}
+
+func BenchmarkSaveData(b *testing.B) {
+	expect := MyData{
+		Name:   "Test",
+		Age:    69,
+		Gender: nil,
+	}
+
+	err := insert(expect)
+	_, err = findOne[MyData]("Test")
+	if err != nil {
+		b.FailNow()
+	}
+	b.ReportAllocs()
 }
