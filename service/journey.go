@@ -9,6 +9,7 @@ type Journey struct {
 
 type JourneyService interface {
 	Create(authorUid, title, content string) (Journey, error)
+	FindAll(authorUid string) ([]Journey, error)
 }
 
 func NewJourneyService(repository database.JourneyRepository) JourneyService {
@@ -25,4 +26,18 @@ func (j *journeyService) Create(authorUid, title, content string) (Journey, erro
 		return Journey{}, err
 	}
 	return autoCreateMap[Journey](journey)
+}
+
+func (j *journeyService) FindAll(authorUid string) ([]Journey, error) {
+	journeys, err := j.repository.FindAll(authorUid)
+	if err != nil {
+		return nil, err
+	}
+	return Map(journeys, func(v database.Journey) (Journey, bool) {
+		res, err := autoCreateMap[Journey](v)
+		if err != nil {
+			return Journey{}, false
+		}
+		return res, true
+	}), nil
 }

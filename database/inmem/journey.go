@@ -24,11 +24,15 @@ func (j *journeyRepository) Create(authorUid, title, content string) (database.J
 	return journey, nil
 }
 
+func (j *journeyRepository) FindAll(authorUid string) ([]database.Journey, error) {
+	return j.safeGetJourneys(authorUid), nil
+}
+
 func (j *journeyRepository) safeGetJourneys(uid string) []database.Journey {
 	if journeys, ok := j.journeys[uid]; ok {
 		return journeys
 	}
-	journeys := make([]database.Journey, 1)
+	journeys := make([]database.Journey, 0)
 	j.journeys[uid] = journeys
 	return journeys
 }

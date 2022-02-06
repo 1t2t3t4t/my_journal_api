@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/1t2t3t4t/my_journal_api/database"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 )
@@ -57,12 +58,17 @@ func ValidateAuthToken(tokenStr string) (AuthClaim, error) {
 	}
 }
 
-func AuthMiddleware() fiber.Handler {
+func AuthMiddleware(userRepository database.UserRepository) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		auth := ctx.Get(fiber.HeaderAuthorization)
 		if split := strings.Split(auth, " "); len(split) == 2 && strings.ToLower(split[0]) == "bearer" {
 			if claim, err := ValidateAuthToken(split[1]); err == nil {
-				ctx.Locals(UserClaim, claim)
+				user := userRepository.FindOne(claim.Uid)
+				if user != nil {
+					ctx.Locals(UserClaim, claim)
+				} else {
+					log.Printf("User not found for token %v", auth)
+				}
 			} else {
 				log.Printf("Invalid token %v", auth)
 			}

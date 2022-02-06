@@ -41,7 +41,7 @@ func main() {
 
 	app := fiber.New()
 	app.Use(compress.New())
-	app.Use(service.AuthMiddleware())
+	app.Use(service.AuthMiddleware(repositories.UserRepository))
 	app.Get("/graphql", func(c *fiber.Ctx) error {
 		playground, err := loadPlayground()
 		if err != nil {

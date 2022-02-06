@@ -8,4 +8,5 @@ type Journey struct {
 
 type JourneyRepository interface {
 	Create(authorUid, title, content string) (Journey, error)
+	FindAll(authorUid string) ([]Journey, error)
 }

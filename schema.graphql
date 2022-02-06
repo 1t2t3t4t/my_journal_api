@@ -1,6 +1,8 @@
 type Query {
     # If there is no "uid" provided, the server will default to returns currently logged in user. (From provided token in headers)
     user(uid: String): User
+    # Journeys of current user
+    journeys: [Journey!]!
 }
 
 type Mutation {
