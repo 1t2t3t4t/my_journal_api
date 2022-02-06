@@ -1,10 +1,15 @@
 package service
 
-import "github.com/1t2t3t4t/my_journal_api/database"
+import (
+	"github.com/1t2t3t4t/my_journal_api/database"
+	"github.com/1t2t3t4t/my_journal_api/types"
+)
 
 type Journey struct {
-	Title   string
-	Content string
+	Title     string
+	Content   string
+	CreatedAt types.DateTime
+	UpdatedAt types.DateTime
 }
 
 type JourneyService interface {

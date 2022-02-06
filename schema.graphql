@@ -12,6 +12,9 @@ type Mutation {
     createJourney(title: String!, content: String!): Journey!
 }
 
+# DateTime with RFC3339 format eg. "2006-01-02T15:04:05Z07:00"
+scalar DateTime
+
 type UserCredential {
     user: User!
     session: Session!
@@ -31,4 +34,7 @@ type Journey {
     title: String!
     content: String!
     author: User!
+
+    createdAt: DateTime!
+    updatedAt: DateTime!
 }

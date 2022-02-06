@@ -1,6 +1,11 @@
 package inmem
 
-import "github.com/1t2t3t4t/my_journal_api/database"
+import (
+	"time"
+
+	"github.com/1t2t3t4t/my_journal_api/database"
+	"github.com/1t2t3t4t/my_journal_api/types"
+)
 
 type journeyRepository struct {
 	journeys map[string][]database.Journey
@@ -14,10 +19,13 @@ func newJourneyRepository() database.JourneyRepository {
 
 func (j *journeyRepository) Create(authorUid, title, content string) (database.Journey, error) {
 	journeys := j.safeGetJourneys(authorUid)
+	created := types.DateTime{Time: time.Now()}
 	journey := database.Journey{
 		AuthorUid: authorUid,
 		Title:     title,
 		Content:   content,
+		CreatedAt: created,
+		UpdatedAt: created,
 	}
 	journeys = append(journeys, journey)
 	j.journeys[authorUid] = journeys
